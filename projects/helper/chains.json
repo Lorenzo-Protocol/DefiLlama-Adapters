@@ -1,6 +1,7 @@
 [
   "acala",
   "ace",
+  "aelf",
   "airdao",
   "alephium",
   "algorand",
@@ -228,6 +229,7 @@
   "planq",
   "pokt",
   "polis",
+  "polkadex",
   "polkadot",
   "polygon",
   "polygon_zkevm",
@@ -278,6 +280,7 @@
   "svm",
   "sx",
   "syscoin",
+  "taiko",
   "telos",
   "tenet",
   "terra",
