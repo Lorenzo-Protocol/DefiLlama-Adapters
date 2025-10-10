@@ -5,7 +5,7 @@ const { cachedGraphQuery } = require('../helper/cache');
 const SUSD1PLUS_TOKEN_CONTRACT_ADDRESS_ETH = "0x8F18f2C97d2f5EC0e1d5B91c1D2ce245a9151972";
 const SUSD1PLUS_TOKEN_CONTRACT_ADDRESS_BSC = "0x4F2760B32720F013E900DC92F65480137391199b";
 
-const subgraphUrl = "https://lorenzo-api.lorenzo-protocol.xyz/v1/graphql/otf";
+const SUBGRAPH_URL = "https://lorenzo-api.lorenzo-protocol.xyz/v1/graphql/otf";
 
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -40,8 +40,8 @@ const config = {
 
 // susd1p to usd1
 const TOKEN_MAPPINGS = {
-  '0x8F18f2C97d2f5EC0e1d5B91c1D2ce245a9151972': '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d',
-  '0x4F2760B32720F013E900DC92F65480137391199b': '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d',
+  [SUSD1PLUS_TOKEN_CONTRACT_ADDRESS_ETH]: '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d',
+  [SUSD1PLUS_TOKEN_CONTRACT_ADDRESS_BSC]: '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d',
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -54,15 +54,13 @@ async function tvl(api) {
   const chain = api.chain;
   const { contractAddr, query } = config[chain];
 
-  const data = await cachedGraphQuery(`lorenzo-protocol-susd1plus/${chain}`, subgraphUrl, query);
+  const data = await cachedGraphQuery(`lorenzo-protocol-susd1plus/${chain}`, SUBGRAPH_URL, query);
   const tvlValue = data?.tvlByChain?.tvl;
 
   if (tvlValue) {
     const targetToken = TOKEN_MAPPINGS[contractAddr] || contractAddr;
     api.add(targetToken, tvlValue);
   }
-
-  return api.getBalances();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
